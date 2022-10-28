@@ -1,0 +1,1 @@
+/usr/bin/c++    -pthread    CMakeFiles/linux_lkh.dir/main.cpp.o CMakeFiles/linux_lkh.dir/CLThread.cpp.o CMakeFiles/linux_lkh.dir/TableHelper.cpp.o CMakeFiles/linux_lkh.dir/BPTree.cpp.o CMakeFiles/linux_lkh.dir/CLMutex.cpp.o CMakeFiles/linux_lkh.dir/Record.cpp.o CMakeFiles/linux_lkh.dir/ThreadTest.cpp.o  -o linux_lkh 

@@ -1,0 +1,3 @@
+/home/linkaihao/桌面/linux_lkh/CMakeFiles/edit_cache.dir
+/home/linkaihao/桌面/linux_lkh/CMakeFiles/rebuild_cache.dir
+/home/linkaihao/桌面/linux_lkh/CMakeFiles/linux_lkh.dir
