@@ -24,14 +24,10 @@ public:
     static void threadDeleteTest();
     // 测试线程-更新表格测试
     static void threadUpdateTest(int row,int data);
-
     // 测试线程-搜索表格测试
     static void threadFindTest(int col,int l,int h);
-
     // 多线程并行测试(插入和搜索)
     static void multiThreadTest(int col,int l,int h);
-
-    
 };
 
 

@@ -28,7 +28,6 @@ TableHelper::TableHelper()
     // 设置随机种子
     srand((unsigned)time(NULL));
     m_mutex_table = new CLMutex();
-    
 }
 // 互斥量初始化
 CLMutex *TableHelper::initializeMutex()
@@ -122,7 +121,7 @@ void TableHelper::loadFromTable(int fd)
     }
 }
 
-
+// 在第col列上创建索引
 Node<Index>* TableHelper::createIndex(int col){
     tree->BPTree_Create(); //初始化创建B+树
     auto root = tree->BPTree_Getroot();
@@ -133,7 +132,7 @@ Node<Index>* TableHelper::createIndex(int col){
     index_node.val = res.getAttributesByCol(col);
     index_node.major_id = res.getId();
     this->tree->BPTree_Insert_Node(root,index_node);
-    // 建议索引B+树
+    // 建立索引B+树
     std::cout<<"开始在属性"<<col<<"列上建立索引"<<std::endl;
     for(int i = 0 ; i < records.size() ; i++){
         index_node.val = records[i].getAttributesByCol(col);

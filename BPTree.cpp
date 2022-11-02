@@ -33,7 +33,7 @@ Node<T>* BPTree<T>::BPTree_Getroot(){
 
 //释放结点顺序，先释放内部数据，再释放node
 template <typename T>
-void BPTree<T>::BPTree_Destroy_Node(Node<T>** node){
+void BPTree<T>::BPTree_Destroy_Node(Node<T>* node){
     free(node->childs);
     free(node->index_node);
     free(node);
@@ -41,8 +41,7 @@ void BPTree<T>::BPTree_Destroy_Node(Node<T>** node){
 
 
 template <typename T>
-void BPTree<T>::BPTree_Insert_Node_NotFull(Node<T>* node, const T &index_node)
-{
+void BPTree<T>::BPTree_Insert_Node_Free(Node<T>* node, const T &index_node){
     int p; //移动下标p
     // 按大小顺序,向右移动结点,找到适合插入的p位置
     for(p = node->num;p >= 1 && index_node.val < node->index_node[p - 1].val;p--){
@@ -52,7 +51,30 @@ void BPTree<T>::BPTree_Insert_Node_NotFull(Node<T>* node, const T &index_node)
     node->index_node[p] = index_node; //插入
 }
 
+// 分裂结点,以(TREE_RANK+1)/2号结点为分界点,左右分裂
+template <typename T>
+void BPTree<T>::BPTree_Insert_Node_Split(Node<T>* root, const T &index_node){
+    BPTree_Insert_Node_Free(root, index_node); //先插入
+    Node<T>* left_node = BPTree_Create_Node(); //分裂左结点
+    Node<T>* right_node = BPTree_Create_Node();  //分裂右结点
+    left_node->num = (TREE_RANK+1)/2;
+    right_node->num = (TREE_RANK+1)/2;
+    right_node->next = root->next; 
+    left_node->next = right_node; //左右连接
+    for(int i = 0 ; i < (TREE_RANK+1)/2; i++ ){
+        left_node->index_node[i] = root->index_node[i];
+        right_node->index_node[i] = root->index_node[i + (TREE_RANK+1)/2];
+    }
+    //将分界结点作为root结点,赋值相关数据
+    root->index_node[0] = left_node->index_node[(TREE_RANK+1)/2 - 1];
+    root->index_node[1] = right_node->index_node[(TREE_RANK+1)/2 - 1];
+    root->childs[0] = left_node;
+    root->childs[1] = right_node;
+    root->is_leaf = false;
+    root->num = 2;
+}
 
+// 插入结点整体逻辑
 template <typename T>
 void BPTree<T>::BPTree_Insert_Node(Node<T>* root, const T &index_node)
 {
@@ -69,28 +91,9 @@ void BPTree<T>::BPTree_Insert_Node(Node<T>* root, const T &index_node)
     else{ //为叶子结点进行处理
         if(root->num>=TREE_RANK){
             //节点满了,则以(TREE_RANK+1)/2号结点为分界点,左右分裂
-            //先插入
-            BPTree_Insert_Node_NotFull(root, index_node);
-            Node<T>* left_node = BPTree_Create_Node(); //分裂左结点
-            Node<T>* right_node = BPTree_Create_Node();  //分裂右结点
-            for(int i = 0 ; i < (TREE_RANK+1)/2; i++ )
-            {
-                left_node->index_node[i] = root->index_node[i];
-                right_node->index_node[i] = root->index_node[i + (TREE_RANK+1)/2];
-            }
-            left_node->num = (TREE_RANK+1)/2;
-            right_node->num = (TREE_RANK+1)/2;
-            right_node->next = root->next; 
-            left_node->next = right_node; //左右连接
-            //将分界结点作为root结点,赋值相关数据
-            root->index_node[0] = left_node->index_node[(TREE_RANK+1)/2 - 1];
-            root->index_node[1] = right_node->index_node[(TREE_RANK+1)/2 - 1];
-            root->childs[0] = left_node;
-            root->childs[1] = right_node;
-            root->is_leaf = false;
-            root->num = 2;
+            BPTree_Insert_Node_Split(root,index_node);
         }else{// 节点未满,可以直接插入
-             BPTree_Insert_Node_NotFull(root, index_node);
+             BPTree_Insert_Node_Free(root, index_node);
         }
     }
 }
@@ -117,7 +120,7 @@ void BPTree<T>::BPTree_Find_Range(Node<T>* root, int low, int high) {
         
     }    
 }
-
+// 打印B+树
 template <typename T>
 void BPTree<T>::BPTree_Print(Node<T> *node, int c) {
     Node<T> *p = node;

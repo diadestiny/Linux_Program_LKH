@@ -30,16 +30,16 @@ void ThreadTest::threadInsertTest(){
 // 测试线程-删除表格测试
 void ThreadTest::threadDeleteTest(){
     std::cout<<"启动删除数据测试线程:"<<std::endl;
-    CLExecutiveFunctionProvider* insert = new CLExecutive_Delete();
-    CLExecutive *thread_delete = new CLThread(insert);
+    CLExecutiveFunctionProvider* del = new CLExecutive_Delete();
+    CLExecutive *thread_delete = new CLThread(del);
     thread_delete->Run();
     thread_delete->WaitForDeath();
 }
 // 测试线程-更新表格测试
 void ThreadTest::threadUpdateTest(int row,int data){
     std::cout<<"启动更新数据测试线程:"<<std::endl;
-    CLExecutiveFunctionProvider* insert = new CLExecutive_Update(row,data);
-    CLExecutive *thread_update = new CLThread(insert);
+    CLExecutiveFunctionProvider* update = new CLExecutive_Update(row,data);
+    CLExecutive *thread_update = new CLThread(update);
     thread_update->Run();
     thread_update->WaitForDeath();
 }

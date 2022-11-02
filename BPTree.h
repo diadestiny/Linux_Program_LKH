@@ -45,19 +45,19 @@ public:
     // 创建结点
     Node<T>* BPTree_Create_Node();
     // 销毁结点 
-    void BPTree_Destroy_Node(Node<T>** node);
+    void BPTree_Destroy_Node(Node<T>* node);
     // 返回B+树根结点
     Node<T>* BPTree_Getroot();
     // 从第c层开始打印B+树 
     void BPTree_Print(Node<T> *node, int c);
     // 插入B+树结点(所有情况)
     void BPTree_Insert_Node(Node<T>* root, const T& index_node);
-    //插入B+树的未满结点(未满结点情况)
-    void BPTree_Insert_Node_NotFull(Node<T>* node, const T& index_node);
+    //插入B+树的空余结点(未满结点情况)
+    void BPTree_Insert_Node_Free(Node<T>* node, const T& index_node);
+    //插入B+树结点(分裂)
+    void BPTree_Insert_Node_Split(Node<T>* root, const T &index_node);
     //从root索引结点开始,搜索属性在[low,right]的行
     void BPTree_Find_Range(Node<T>* root, int low, int high);
-
-    
 
 private:
     Node<T>* root; //根节点

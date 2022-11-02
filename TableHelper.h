@@ -42,7 +42,6 @@ public:
     // 清空索引
     void clearIndex();
 
-
 private:
     // 维护属性对应索引相关的B+树
     BPTree<Index>* tree;

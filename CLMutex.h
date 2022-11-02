@@ -7,8 +7,7 @@
 
 #include <pthread.h>
 
-class CLMutex
-{
+class CLMutex{
 public:
 
 	CLMutex();
